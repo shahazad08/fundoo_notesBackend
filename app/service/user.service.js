@@ -10,7 +10,7 @@
 
 const userModel = require("../models/user.model.js");
 const jwtHelper = require("../../utility/jwt");
-//const mailHelper = require("../../utility/mailer");
+const mailHelper = require("../../utility/mailer");
 const bcrypt = require("bcrypt");
 //const redis = require("../../utility/redis/cache")
 class UserService {
@@ -81,6 +81,48 @@ class UserService {
       return err ? callback(err, null) : callback(null, data);
     });
   };
+
+  /**
+   * @description Service layer function for user forgot password
+   * @param {string} email
+   * @returns
+   */
+   forgotPassword = (email) => {
+    return userModel
+      .forgotPassword(email)
+      .then((data) => {
+        let token = data.resetPasswordToken;
+        return mailHelper
+          .mailer(data.email, token)
+          .then((data) => {
+            data.token = token;
+            return data;
+          })
+          .catch((err) => {
+            throw err;
+          });
+      })
+      .catch((err) => {
+        throw err;
+      });
+  };
+
+   /**
+   * @description Service layer function for user reset password
+   * @param {string} token
+   * @param {string} password
+   * @returns
+   */
+    resetPassword = (token, password) => {
+      return userModel
+        .resetPassword(token, password)
+        .then((data) => {
+          return data;
+        })
+        .catch((err) => {
+          throw err;
+        });
+    };
 }
 
 module.exports = new UserService();

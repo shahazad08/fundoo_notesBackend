@@ -32,6 +32,13 @@ userRoute.put(
 
 userRoute.delete("/:userID", userController.deleteUser);
 
+//forgot password route
+userRoute.post("/forgot", userController.forgotPassword);
+
+//email password reset route
+userRoute.post("/reset/:token", userController.resetPassword);
+
+
 
 
 module.exports = userRoute;

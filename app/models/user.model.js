@@ -10,7 +10,7 @@
 
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
-// const jwtHelper = require("../../utility/jwt");
+const jwtHelper = require("../../utility/jwt");
 const userSchema = mongoose.Schema(
   {
     firstName: String,
@@ -106,6 +106,72 @@ findOneUser = (email, callback) => {
     myUser.findByIdAndRemove(userID, (err, data) => {
       return err ? callback(err, null) : callback(null, data);
     });
+  };
+
+  /**
+   *@description model function for forgot user password
+   * @param {string} email
+   * @returns err or data
+   */
+   forgotPassword = (email) => {
+    return myUser
+      .findOne({ email: email })
+      .then((data) => {
+        if (!data) {
+          throw "Email not found";
+        } else {
+          let randomToken = jwtHelper.generateRandomCode();
+          data.resetPasswordToken = randomToken;
+          data.resetPasswordExpires = Date.now() + 3600000;
+          return data
+            .save()
+            .then((res) => {
+              return res;
+            })
+            .catch((err) => {
+              console.log("Error", err)
+              throw err;
+            });
+        }
+      })
+      .catch((err) => {
+        throw err;
+      });
+  };
+
+   /**
+   *@description model function for user password reset
+   * @param {string} token
+   * @param {string} newPassword
+   * @returns err or data
+   */
+   resetPassword = (token, newPassword) => {
+    return myUser
+      .findOne({
+        resetPasswordToken: token,
+        resetPasswordExpires: { $gt: Date.now() },
+      })
+      .then((data) => {
+        if (!data) {
+          throw "token not found";
+        } else {
+          encryptedPassword = bcrypt.hashSync(newPassword, 10);
+          (data.password = encryptedPassword),
+            (data.resetPasswordToken = undefined),
+            (data.resetPasswordExpires = undefined);
+          return data
+            .save()
+            .then((data) => {
+              return data;
+            })
+            .catch((err) => {
+              throw err;
+            });
+        }
+      })
+      .catch((err) => {
+        throw err;
+      });
   };
 }
 

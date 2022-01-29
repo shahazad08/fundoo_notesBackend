@@ -170,6 +170,51 @@ class UserController {
     });
   };
 
+   /**
+   * @description Handles request and response for forgot password
+   * @param {Object} req
+   * @param {Object} res
+   */
+    forgotPassword = (req, res) => {
+      let email = req.body.email;
+      userService
+        .forgotPassword(email)
+        .then((data) => {
+          responseObject = dtoObject.userValidationSuccess;
+          responseObject.message = "Email sent";
+          console.log(responseObject);
+          return res.send(responseObject);
+        })
+        .catch((err) => {
+          console.log("Email Error", err);
+          responseObject = dtoObject.userValidationFailure;
+          responseObject.message = err;
+          return res.send(responseObject);
+        });
+    };
+
+     /**
+   * @description Handles request and response for resetting the password
+   * @param {Object} req
+   * @param {Object} res
+   */
+  resetPassword = (req, res) => {
+    let token = req.params.token;
+    let password = req.body.password;
+    userService
+      .resetPassword(token, password)
+      .then((data) => {
+        responseObject = dtoObject.userValidationSuccess;
+        responseObject.message = "Password updated successfully";
+        return res.send(responseObject);
+      })
+      .catch((err) => {
+        responseObject = dtoObject.userValidationFailure;
+        responseObject.message = "token not found";
+        console.log(err);
+        return res.send(responseObject);
+      });
+  };
 }
 
 module.exports = new UserController();
