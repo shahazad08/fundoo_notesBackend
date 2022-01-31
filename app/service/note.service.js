@@ -24,5 +24,17 @@ class NoteService {
       return err ? callback(err, null) : callback(null, data);
     });
   };
+
+  /**
+   * @description Service layer function to find a note
+   * @param {string} noteId
+   * @param {callback} callback
+   * @returns err or data
+   */
+   findOne = (userId,noteId, callback) => {
+    noteModel.findOne(userId,noteId, (err, data) => {
+      return err ? callback(err, null) : callback(null, data);
+    });
+  };
 }
 module.exports = new NoteService();

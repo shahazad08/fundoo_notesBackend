@@ -49,6 +49,37 @@ class NoteController {
       return res.send(responseObject);
     });
   };
+
+  /**
+   * @description Handles the request and response for finding a single note
+   * @param {Object} req
+   * @param {Object} res
+   */
+   findOne = (req, res) => {
+    noteService.findOne(req.body.userId, req.params.noteId, (err, data) => {
+      if (err) {
+      //  logger.error("Could not find Note", err);
+      console.log("Could not find Note", err);
+        if (err.kind === "ObjectId") {
+          responseObject = dtoObject.noteApiFindFailure;
+          responseObject.message = err.message;
+          return res.send(responseObject);
+        }
+        responseObject = dtoObject.noteApiFailure;
+        responseObject.message = err;
+        return res.send(responseObject);
+      }
+      if (!data) {
+        responseObject = dtoObject.noteApiFindFailure;
+        return res.send(responseObject);
+      }
+      //logger.info(data);
+      console.log("Reterive One", data);
+      responseObject = dtoObject.noteApiSuccess;
+      responseObject.message = data;
+      return res.send(responseObject);
+    });
+  };
 }
 
 module.exports = new NoteController();

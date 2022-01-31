@@ -10,5 +10,8 @@ noteRoute.post("/",noteMiddleware.ensureToken,noteMiddleware.validate, noteContr
 // Retrieve all Notes
 noteRoute.get("/",noteMiddleware.ensureToken,noteController.findAll);
 
+// Retrieve a single Note with noteId
+noteRoute.get("/:noteId", noteMiddleware.ensureToken,noteController.findOne);
+
 module.exports = noteRoute;
 

@@ -57,5 +57,24 @@ class NoteModel {
             return error ? callback(error, null) : callback(null, data);
           });
       };
+
+       /**
+   * @description finds one note which matches the given noteid
+   * @param {Object} noteId
+   * @param {callback} callback
+   * @returns err or data
+   */
+  findOne = (userId, noteId, callback) => {
+    return myNote.findOne({ userId: userId, _id: noteId }, (error, data) => {
+      if (error) {
+        return callback(error, null);
+      }
+      if (!data) {
+        return callback("You dont have access to this note", null);
+      } else {
+        return callback(null, data);
+      }
+    });
+  };
 }
 module.exports = new NoteModel();
