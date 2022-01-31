@@ -36,5 +36,30 @@ class NoteService {
       return err ? callback(err, null) : callback(null, data);
     });
   };
+
+   /**
+   * @description Service layer function to update a note
+   * @param {string} noteId
+   * @param {Object} body
+   * @param {callback} callback
+   * @returns err or data
+   */
+    updateNote = (userId,noteId, body, callback) => {
+        noteModel.updateNote(userId,noteId, body, (err, data) => {
+          return err ? callback(err, null) : callback(null, data);
+        });
+      };
+
+       /**
+   * @description Service layer function to delete a note
+   * @param {String} noteId
+   * @param {callback} callback
+   * @returns err or data
+   */
+  deleteOne = (userId,noteId, callback) => {
+    noteModel.deleteOne(userId,noteId, (err, data) => {
+      return err ? callback(err, null) : callback(null, data);
+    });
+  };
 }
 module.exports = new NoteService();

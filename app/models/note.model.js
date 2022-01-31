@@ -76,5 +76,55 @@ class NoteModel {
       }
     });
   };
+
+   /**
+   * @description Find note and update it with the request body
+   * @param {Object} noteId
+   * @param {string} title
+   * @param {string} content
+   * @param {callback} callback
+   * @returns err or data
+   */
+    updateNote = (userId, noteId, body, callback) => {
+        return myNote.findOneAndUpdate(
+          { userId: userId, _id: noteId },
+          {
+            title: body.title,
+            content: body.content,
+            isTrash: body.isTrash,
+            color: body.color,
+            image: body.image,
+          },
+          { new: true },
+          (error, data) => {
+            if (error) {
+              return callback(error, null);
+            }
+            if (!data) {
+              return callback("You dont have access to this note", null);
+            } else {
+              return callback(null, data);
+            }
+          }
+        );
+      };
+
+       /**
+   * @description finds a note and deletes it
+   * @param {Object} noteId
+   * @param {callback} callback
+   * @returns err or data
+   */
+  deleteOne = (userId, noteId, callback) => {
+    myNote.findOneAndRemove({ userId: userId, _id: noteId }, (error, data) => {
+      if (error) {
+        return callback(error, null);
+      }
+      if (!data) {
+        return callback("You dont have access to this note", null);
+      } 
+        return callback(null, data);
+    });
+  };
 }
 module.exports = new NoteModel();

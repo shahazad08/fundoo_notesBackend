@@ -13,5 +13,14 @@ noteRoute.get("/",noteMiddleware.ensureToken,noteController.findAll);
 // Retrieve a single Note with noteId
 noteRoute.get("/:noteId", noteMiddleware.ensureToken,noteController.findOne);
 
+// Update a Note with noteId
+noteRoute.put("/:noteId",noteMiddleware.ensureToken,noteMiddleware.validate,noteController.updateNote);
+
+
+// Delete a Note with noteId
+noteRoute.delete("/:noteId", noteMiddleware.ensureToken,noteController.deleteOne);
+
+
+
 module.exports = noteRoute;
 
