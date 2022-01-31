@@ -26,13 +26,13 @@ class NoteModel {
    * @param {callback} callback
    * @returns err or data
    */
-  createNote = (title, content, userId, callback) => {
+  createNote = (title, content, userId, color,callback) => {
     const note = new myNote({
       title: title,
       content: content,
       userId: userId,
       isTrash: false,
-      color: "white",
+      color: color,
       image: "",
     });
     return note.save((err, data) => {

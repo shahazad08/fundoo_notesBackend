@@ -9,7 +9,7 @@ class NoteService {
    * @returns err or data
    */
   createNote = (body, callback) => {
-    noteModel.createNote(body.title, body.content,body.userId, (err, data) => {
+    noteModel.createNote(body.title, body.content,body.userId, body.color,  (err, data) => {
       return err ? callback(err, null) : callback(null, data);
     });
   };
