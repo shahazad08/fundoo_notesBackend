@@ -11,6 +11,7 @@
 const express = require("express");
 //const logger = require("./config/logger.js");
 const userRouter = require("./app/routes/user.routes.js");
+const noteRouter = require("./app/routes/note.routes.js");
 const db = require("./config/dbConnect");
 const cors = require("cors");
 require('dotenv').config();
@@ -27,7 +28,7 @@ app.use(cors());
 
 app.use(express.json());
 
-// app.use("/notes", noteRouter);
+app.use("/notes", noteRouter);
 app.use("/user", userRouter);
 // app.use("/label", labelRouter);
 
