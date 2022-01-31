@@ -1,5 +1,6 @@
 
 const mongoose = require("mongoose");
+const multer = require("multer");
 //const { promisify } = require("util");
 
 const NoteSchema = mongoose.Schema(
@@ -26,17 +27,18 @@ class NoteModel {
    * @param {callback} callback
    * @returns err or data
    */
-  createNote = (title, content, userId, color,callback) => {
+  createNote = (title, content, userId, color,  callback) => {
+     
     const note = new myNote({
       title: title,
       content: content,
       userId: userId,
       isTrash: false,
       color: color,
-      image: "",
+      image:"",
     });
     return note.save((err, data) => {
-        console.log("Data", data.color);
+        console.log("Data", data);
       return err ? callback(err, null) : callback(null, data);
     });
   };

@@ -3,6 +3,7 @@ const noteService = require("../../service/note.service");
 const dtoObject = require("./note.responseSchema");
 //const logger = require("../../../config/logger");
 const multer = require("../../../utility/multer");
+const uploadImage = require("../../../utility/multer");
 let responseObject;
 class NoteController {
   /**
@@ -11,8 +12,8 @@ class NoteController {
    * @param {Object} res
    */
   createNote = (req, res) => {
-    let body = req.body;
-    noteService.createNote(body, (err, data) => {
+    let body=req.body
+    noteService.createNote(body,(err, data) => {
       if (err) {
       //  logger.error("Could not create Note", err);
       console.log("Could not create Note", err);
@@ -149,6 +150,26 @@ class NoteController {
       return res.send(responseObject);
     });
   };
+
+  /**
+   * @description Handles the request and response for posting a image
+   * @param {Object} req
+   * @param {Object} res
+   */
+   uploadImage = (req, res) => {
+    const upload = multer();
+    upload(req, res, (err) => {
+      if (err) {
+       // logger.error("Could not upload image", err);
+       console.log("Coould not upload an Image", err);
+        res.status(400).send(err);
+      } else {
+       // logger.info(res);
+       console.log(res);
+        res.status(200).send(req.file);
+      }
+    });
+  }
     
 }
 

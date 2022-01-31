@@ -15,6 +15,7 @@ const uploadImage = () => {
   const storage = multer.diskStorage({
     destination: "./uploads/images/",
     filename: (req, file, callback) => {
+      console.log("File uploaded",req.file);
       callback(
         null,
         file.fieldname + "-" + Date.now() + path.extname(file.originalname)
