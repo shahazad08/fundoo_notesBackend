@@ -40,5 +40,22 @@ class NoteModel {
       return err ? callback(err, null) : callback(null, data);
     });
   };
+
+    /**
+   * @description finds all notes present in data base
+   * @param {callback} callback
+   * @returns err or data
+   */
+     findAll = (userId, callback) => {
+        return myNote
+          .find({ userId: userId })
+          .populate({
+            path: "userId",
+            select: ["firstName", "lastName", "email"],
+          })
+          .exec((error, data) => {
+            return error ? callback(error, null) : callback(null, data);
+          });
+      };
 }
 module.exports = new NoteModel();

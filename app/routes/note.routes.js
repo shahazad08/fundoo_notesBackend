@@ -7,5 +7,8 @@ const noteRoute = express.Router();
 // Create a new Note
 noteRoute.post("/",noteMiddleware.ensureToken,noteMiddleware.validate, noteController.createNote);
 
+// Retrieve all Notes
+noteRoute.get("/",noteMiddleware.ensureToken,noteController.findAll);
+
 module.exports = noteRoute;
 

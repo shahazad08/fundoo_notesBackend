@@ -27,6 +27,28 @@ class NoteController {
       return res.send(responseObject);
     });
   };
+
+  /**
+   * @description Handles the request and response for finding all notes
+   * @param {Object} req
+   * @param {Object} res
+   */
+   findAll = (req, res) => {
+    noteService.findAll(req.body.userId, (err, data) => {
+      if (err) {
+      //  logger.error("Could not find Note", err);
+      console.log("Could not find Note", err);
+        responseObject = dtoObject.noteApiFailure;
+        responseObject.message = err.message;
+        return res.send(responseObject);
+      }
+     // logger.info(data);
+     console.log("All Notes", data);
+      responseObject = dtoObject.noteApiSuccess;
+      responseObject.message = data;
+      return res.send(responseObject);
+    });
+  };
 }
 
 module.exports = new NoteController();
