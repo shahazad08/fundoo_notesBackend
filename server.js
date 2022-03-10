@@ -12,6 +12,7 @@ const express = require("express");
 //const logger = require("./config/logger.js");
 const userRouter = require("./app/routes/user.routes.js");
 const noteRouter = require("./app/routes/note.routes.js");
+const labelRouter = require("./app/routes/label.routes.js");
 const db = require("./config/dbConnect");
 const cors = require("cors");
 require('dotenv').config();
@@ -30,7 +31,7 @@ app.use(express.json());
 
 app.use("/notes", noteRouter);
 app.use("/user", userRouter);
-// app.use("/label", labelRouter);
+app.use("/label", labelRouter);
 
 //  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

@@ -35,7 +35,7 @@ class UserController {
       console.log("Login SucessFull", data);
       responseObject = dtoObject.userApiSuccess;
       responseObject.message = data;
-      return res.send(data);
+      return res.send(responseObject);
     });
   };
 
