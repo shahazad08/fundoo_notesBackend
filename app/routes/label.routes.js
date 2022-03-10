@@ -11,10 +11,12 @@
 const express = require("express");
 const labelController=require('../controllers/label/label.controller')
 const labelRoute = express.Router();
-
+const labelMiddleware = require("../middleware/note.middleware.js");
 
 // Create a new Label
 
-labelRoute.post("/", labelController.createLabel)
+labelRoute.post("/", labelMiddleware.ensureToken,labelController.createLabel)
+
+labelRoute.get("/", labelMiddleware.ensureToken, labelController.findAll);
 
 module.exports = labelRoute;

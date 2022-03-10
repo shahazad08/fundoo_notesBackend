@@ -25,6 +25,16 @@ class LabelService {
       throw error;
     }
   }
+
+
+findAll = async (userId) => {
+  try {
+    const data = await labelModel.findAll(userId);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
 }
 
 module.exports = new LabelService();

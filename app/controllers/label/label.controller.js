@@ -31,7 +31,29 @@ class LabelController {
       return res.send(responseObject);
     }
 }
-}
 
+
+
+  /**
+   * @description Handles the request and response for finding all labels
+   * @param {Object} req
+   * @param {Object} res
+   */
+   findAll = async (req, res) => {
+    try {
+      const data = await labelService.findAll(req.body.userId);
+    //  logger.info(data);
+      responseObject = dtoObject.labelApiSuccess;
+      responseObject.message = data;
+      return res.send(responseObject);
+    } catch (err) {
+    //  logger.error("Could not find label", err);
+      responseObject = dtoObject.labelApiFailure;
+      responseObject.message = err.message;
+      return res.send(responseObject);
+    }
+  };
+
+}
 
 module.exports = new LabelController();

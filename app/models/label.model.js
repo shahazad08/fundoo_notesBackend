@@ -44,6 +44,27 @@ class LabelModel {
         throw error;
       }
     };
+
+
+/**
+   * @description finds all labels present in data base
+   * @returns err or data
+   */
+ findAll = async (userId) => {
+  try {
+    const data = await myLabel
+      .find({ userId: userId })
+      .populate({
+        path: "userId",
+        select: ["firstName", "lastName", "age", "email"],
+      })
+      .exec();
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 }
 
 
