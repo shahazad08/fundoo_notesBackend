@@ -65,6 +65,68 @@ class LabelModel {
   }
 };
 
+/**
+   * @description finds one label which matches the given labelid
+   * @param {Object} labelId
+   * @returns err or data
+   */
+ findOne = async (userId, labelId) => {
+  try {
+    const data = await myLabel.findOne({ userId: userId, _id: labelId });
+    if (!data) {
+      throw "You dont have access to this label";
+    } else {
+      return data;
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
+  /**
+   * @description Find label and update it with the request body
+   * @param {Object} labelId
+   * @returns err or data
+   */
+   updatelabel = async (userId, labelId, body) => {
+    try {
+      const data = await myLabel.findOneAndUpdate(
+        { userId: userId, _id: labelId },
+        {
+          title: body.title,
+        },
+        { new: true }
+      );
+      if (!data) {
+        throw "You dont have access to this label";
+      } else {
+        return data;
+      }
+    } catch (error) {
+      throw error;
+    }
+  };
+/**
+   * @description finds a label and deletes it
+   * @param {Object} labelId
+   * @returns err or data
+   */
+ deleteOne = (userId, labelId) => {
+  try {
+    const data =  myLabel.findOneAndRemove({
+      userId: userId,
+      _id: labelId,
+    }); 
+    if (!data) {
+      throw "You dont have access to this label";
+    } else {
+      return data;
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
 }
 
 

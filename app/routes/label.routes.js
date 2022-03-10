@@ -19,4 +19,23 @@ labelRoute.post("/", labelMiddleware.ensureToken,labelController.createLabel)
 
 labelRoute.get("/", labelMiddleware.ensureToken, labelController.findAll);
 
+labelRoute.get(
+    "/:labelId",
+    labelMiddleware.ensureToken,
+    labelController.findOne
+  );
+
+  // Update a Label with LabelId
+labelRoute.put(
+    "/:labelId",
+    labelMiddleware.ensureToken,
+    labelController.updateLabel
+  );
+
+  // Delete a Label with LabelId
+labelRoute.delete(
+    "/:labelId",
+    labelMiddleware.ensureToken,
+    labelController.deleteOne
+  );
 module.exports = labelRoute;
